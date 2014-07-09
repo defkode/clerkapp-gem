@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["mateusz@webtigers.eu"]
   spec.summary       = %q{Provides a simple ruby wrapper around the Clerkapp API}
   spec.description   = %q{Provides a simple ruby wrapper around the Clerkapp API}
-  spec.homepage      = "https://www.clerkapp.io"
+  spec.homepage      = "https://github.com/meceo/clerkapp"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
