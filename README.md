@@ -28,11 +28,11 @@ We can print our first form with few lines of code:
 ```ruby
 File.open("test_printout.pdf", "wb") do |f|
   pdf_content = Clerkapp.print(
-    name: "test.pdf",
-    fields: {
-      name: "Johm Mayer",
-      gender: "0",
-      newsletter: "Y"
+    "name"   => "test.pdf",
+    "fields" => {
+      "name"       => "Johm Mayer",
+      "gender"     => "0",
+      "newsletter" => "Y"
     }
   )
   f.write pdf_content.read
