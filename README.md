@@ -21,6 +21,9 @@ Or install it yourself as:
 Lets make few assumptions:
 
 - you have clerkapp addon added to your application
+```term
+$ heroku addons:add clerk
+```
 - you have form uploaded with identifier `test.pdf` ([how to upload a pdf form](#uploading-pdf-forms)).
 - your form has fields named `name`, `gender`, `newsletter`.
 
@@ -38,6 +41,16 @@ File.open("test_printout.pdf", "wb") do |f|
   f.write pdf_content.read
 end
 ```
+
+### Uploading pdf forms
+
+To upload pdf form open dashboard
+
+```term
+$ heroku addons:open clerk
+```
+
+Select file from hard drive or paste url and click `Upload`. In no time your first form is uploaded with identifier set to a filename. That's all, you can now print your first document.
 
 ## Contributing
 
