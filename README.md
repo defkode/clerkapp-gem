@@ -1,6 +1,6 @@
 # Clerkapp
 
-TODO: Write a gem description
+Provides a simple ruby wrapper around the Clerkapp API
 
 ## Installation
 
@@ -18,7 +18,26 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Lets make few assumptions:
+
+- you have clerkapp addon added to your application
+- you have form uploaded with identifier `test.pdf` ([how to upload a pdf form](#uploading-pdf-forms)).
+- your form has fields named `name`, `gender`, `newsletter`.
+
+We can print our first form with few lines of code:
+```ruby
+File.open("test_printout.pdf", "wb") do |f|
+  pdf_content = Clerkapp.print(
+    name: "test.pdf",
+    fields: {
+      name: "Johm Mayer",
+      gender: "0",
+      newsletter: "Y"
+    }
+  )
+  f.write pdf_content.read
+end
+```
 
 ## Contributing
 
