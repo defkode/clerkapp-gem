@@ -21,7 +21,7 @@ class ClerkappTest < MiniTest::Unit::TestCase
           "created_at" => "2014-03-09T08:02:57.112Z",
           "updated_at" => "2014-03-09T08:02:57.112Z",
           "pdf"        => {"url"=>"/uploads/form/pdf/41c36a6c-3c7d-4028-8f15-5bee22ea0952/form.pdf"},
-          "name"       => "VAT7.pdf",
+          "identifier" => "VAT7-1",
           "fields"     => {
             "first_name"  => "string",
             "last_name"   => "string",
@@ -35,12 +35,12 @@ class ClerkappTest < MiniTest::Unit::TestCase
           "created_at" => "2014-03-09T07:54:22.992Z",
           "updated_at" => "2014-03-09T07:54:22.992Z",
           "pdf"        => {"url"=>"/uploads/form/pdf/8afc8eeb-ff47-4342-8bfb-813cce372ce2/form.pdf"},
-          "name"       => "VAT7.pdf",
+          "identifier" => "VAT7-2",
           "fields"     => {
-            "first_name"=>"string",
-            "last_name"=>"string",
-            "test_period"=>"boolean",
-            "skills"=>"array"
+            "first_name"  =>"string",
+            "last_name"   =>"string",
+            "test_period" =>"boolean",
+            "skills"      =>"array"
           }
         }
       ]
@@ -48,9 +48,9 @@ class ClerkappTest < MiniTest::Unit::TestCase
     end
   end
 
-  def test_sync_printouts_successfuly
-    VCR.use_cassette("printout_form_successfuly") do
-      params = {
+  def test_sync_printouts_successfully
+    VCR.use_cassette("printout_form_successfully") do
+      fields = {
         "first_name" => "Mateusz",
         "last_name"  => "Juraszek",
         "student"    => "Yes",
@@ -59,7 +59,7 @@ class ClerkappTest < MiniTest::Unit::TestCase
         "hobby"      => "fishing",
         "comment"    => "What the f***?"
       }
-      fileless = Clerkapp.print("name" => "aoa_pl.pdf", "fields" => params)
+      fileless = Clerkapp.print("aoa_pl", fields)
       assert_equal 83733, fileless.size
       assert_equal 'aoa_pl.pdf', fileless.original_filename
       assert_equal 'application/pdf', fileless.content_type

@@ -9,34 +9,33 @@ class Clerkapp
 
   class << self
     def list(options = {})
-      client = new(options)
-      client.list
+      new.list
     end
 
-    def print(print_options, options = {})
-      client = new(options)
-      client.print(print_options)
+    def print(form_identifier, fields = {}, options = {})
+      raise ArgumentError.new("form_identifier is required") unless form_identifier
+      raise ArgumentError.new("fields must be a hash")  unless fields.is_a?(Hash)
+      raise ArgumentError.new("options must be a hash") unless options.is_a?(Hash)
+      default_options = {
+        "test"           => false,
+        "async"          => false,
+        "raise_on_error" => true
+      }
+      new.print(form_identifier.to_s, fields, default_options.merge(options))
     end
   end
 
-  def initialize(options)
-    raise NoAccount, "CLERK_URL is not specified, please install addon" unless ENV['CLERK_URL']
-    raise ArgumentError.new("please pass in an options hash") unless options.is_a?(Hash)
-
-    default_options = {
-      "test"           => false,
-      "async"          => false,
-      "raise_on_error" => true
-    }
-
-    @options = default_options.merge(options)
+  def initialize
+    raise NoAccount, "CLERK_URL is not specified, did you install heroku add-on?" unless ENV['CLERK_URL']
   end
 
-  def print(options)
-    options = @options.merge(options)
-    raise ArgumentError.new("please pass in an options hash") unless options.is_a?(Hash)
+  def print(form_identifier, fields = {}, options = {})
+    options = options.select {|k, v| [:test, :async].include?(k)}
     raise_on_error = options.delete("raise_on_error")
-    response = http_client.post "/api/printouts", options.to_json
+    response = http_client.post "/api/printouts", {
+      form_identifier: form_identifier,
+      fields:          fields
+    }.merge(options).to_json
 
     if raise_on_error && !response.success?
       raise Clerkapp::ApiError.new("status_code: #{response.status}#{"\n#{response.body}" if response.body.present?}")
@@ -56,7 +55,7 @@ class Clerkapp
       end
       return_value
     else
-      Fileless.new(response.body, options["name"], 'application/pdf')
+      Fileless.new(response.body, "#{form_identifier}.pdf", 'application/pdf')
     end
   end
 

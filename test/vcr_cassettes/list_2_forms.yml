@@ -48,7 +48,7 @@ http_interactions:
       - Keep-Alive
     body:
       encoding: UTF-8
-      string: '[{"id":"41c36a6c-3c7d-4028-8f15-5bee22ea0952","user_id":"f893913f-e763-42e7-816b-d9b9d5b07de3","created_at":"2014-03-09T08:02:57.112Z","updated_at":"2014-03-09T08:02:57.112Z","pdf":{"url":"/uploads/form/pdf/41c36a6c-3c7d-4028-8f15-5bee22ea0952/form.pdf"},"name":"VAT7.pdf","fields":{"first_name":"string","last_name":"string","test_period":"boolean","skills":"array"}},{"id":"8afc8eeb-ff47-4342-8bfb-813cce372ce2","user_id":"f893913f-e763-42e7-816b-d9b9d5b07de3","created_at":"2014-03-09T07:54:22.992Z","updated_at":"2014-03-09T07:54:22.992Z","pdf":{"url":"/uploads/form/pdf/8afc8eeb-ff47-4342-8bfb-813cce372ce2/form.pdf"},"name":"VAT7.pdf","fields":{"first_name":"string","last_name":"string","test_period":"boolean","skills":"array"}}]'
+      string: '[{"id":"41c36a6c-3c7d-4028-8f15-5bee22ea0952","user_id":"f893913f-e763-42e7-816b-d9b9d5b07de3","created_at":"2014-03-09T08:02:57.112Z","updated_at":"2014-03-09T08:02:57.112Z","pdf":{"url":"/uploads/form/pdf/41c36a6c-3c7d-4028-8f15-5bee22ea0952/form.pdf"},"identifier":"VAT7-1","fields":{"first_name":"string","last_name":"string","test_period":"boolean","skills":"array"}},{"id":"8afc8eeb-ff47-4342-8bfb-813cce372ce2","user_id":"f893913f-e763-42e7-816b-d9b9d5b07de3","created_at":"2014-03-09T07:54:22.992Z","updated_at":"2014-03-09T07:54:22.992Z","pdf":{"url":"/uploads/form/pdf/8afc8eeb-ff47-4342-8bfb-813cce372ce2/form.pdf"},"identifier":"VAT7-2","fields":{"first_name":"string","last_name":"string","test_period":"boolean","skills":"array"}}]'
     http_version:
   recorded_at: Sun, 09 Mar 2014 09:25:29 GMT
 recorded_with: VCR 2.8.0

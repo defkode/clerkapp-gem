@@ -24,20 +24,17 @@ Lets make few assumptions:
 ```term
 $ heroku addons:add clerk
 ```
-- you have form uploaded with identifier `test.pdf` ([how to upload a pdf form](#uploading-pdf-forms)).
+- you have form uploaded with identifier `your-awesome-form` ([how to upload a pdf form](#uploading-pdf-forms)).
 - your form has fields named `name`, `gender`, `newsletter`.
 
 We can print our first form with few lines of code:
 ```ruby
 File.open("test_printout.pdf", "wb") do |f|
-  pdf_content = Clerkapp.print(
-    "name"   => "test.pdf",
-    "fields" => {
-      "name"       => "Johm Mayer",
-      "gender"     => "0",
-      "newsletter" => "Y"
-    }
-  )
+  pdf_content = Clerkapp.print("your-awesome-form", {
+    "name"       => "Johm Mayer",
+    "gender"     => "0",
+    "newsletter" => "Y"
+  })
   f.write pdf_content.read
 end
 ```
