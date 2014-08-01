@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'clerkapp/version'
+require 'clerk/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "clerkapp"
-  spec.version       = Clerkapp::VERSION
+  spec.version       = Clerk::VERSION
   spec.authors       = ["Mateusz Juraszek"]
   spec.email         = ["mateusz@webtigers.eu"]
   spec.summary       = %q{Provides a simple ruby wrapper around the Clerkapp API}

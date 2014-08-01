@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class ClerkappTest < MiniTest::Unit::TestCase
+class ClerkTest < MiniTest::Unit::TestCase
   # list
   def test_returns_empty_list
     VCR.use_cassette("list_empty") do
-      result = Clerkapp.list
+      result = Clerk::Form.list
 
       assert_equal [], result
     end
@@ -12,7 +12,7 @@ class ClerkappTest < MiniTest::Unit::TestCase
 
   def test_returns_list_of_forms
     VCR.use_cassette("list_2_forms") do
-      result = Clerkapp.list
+      result = Clerk::Form.list
 
       expected_result = [
         {
@@ -59,7 +59,7 @@ class ClerkappTest < MiniTest::Unit::TestCase
         "hobby"      => "fishing",
         "comment"    => "What the f***?"
       }
-      fileless = Clerkapp.print("aoa_pl", fields)
+      fileless = Clerk::Form.print("aoa_pl", fields)
       assert_equal 83733, fileless.size
       assert_equal 'aoa_pl.pdf', fileless.original_filename
       assert_equal 'application/pdf', fileless.content_type

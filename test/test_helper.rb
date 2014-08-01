@@ -3,7 +3,7 @@ require 'minitest/autorun'
 require 'vcr'
 require 'pry'
 
-require 'clerkapp'
+require 'clerk'
 
 ENV['CLERK_URL'] = 'http://username:d1e79306367b4c5467bfb9e788fcf748@localhost:9292'
 
