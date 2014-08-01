@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Mateusz Juraszek"]
   spec.email         = ["mateusz@webtigers.eu"]
   spec.summary       = %q{Provides a simple ruby wrapper around the Clerkapp API}
-  spec.description   = %q{Provides a simple ruby wrapper around the Clerkapp API}
+  spec.description   = %q{Ruby gem for heroku addon "clerk". Clerk is an add-on that enables you programatically fill in field-values for an active PDF form, letting you easily generate a new PDF based on those field-values, which can then be printed or stored.}
   spec.homepage      = "https://github.com/meceo/clerkapp"
   spec.license       = "MIT"
 
