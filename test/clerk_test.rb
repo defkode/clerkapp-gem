@@ -1,68 +1,62 @@
 require 'test_helper'
 
 class ClerkTest < MiniTest::Unit::TestCase
-  # list
-  def test_returns_empty_list
-    VCR.use_cassette("list_empty") do
-      result = Clerk::Form.list
-
-      assert_equal [], result
-    end
+  def setup
+    @fields = {
+      "first_name" => "Mateusz",
+      "last_name"  => "Juraszek",
+      "student"    => "Yes",
+      "sex"        => "1",
+      "age"        => "15 - 18",
+      "hobby"      => "fishing",
+      "comment"    => "Don't call after 11 PM"
+    }
   end
 
-  def test_returns_list_of_forms
-    VCR.use_cassette("list_2_forms") do
-      result = Clerk::Form.list
-
-      expected_result = [
-        {
-          "id"         => "41c36a6c-3c7d-4028-8f15-5bee22ea0952",
-          "user_id"    => "f893913f-e763-42e7-816b-d9b9d5b07de3",
-          "created_at" => "2014-03-09T08:02:57.112Z",
-          "updated_at" => "2014-03-09T08:02:57.112Z",
-          "pdf"        => {"url"=>"/uploads/form/pdf/41c36a6c-3c7d-4028-8f15-5bee22ea0952/form.pdf"},
-          "identifier" => "VAT7-1",
-          "fields"     => {
-            "first_name"  => "string",
-            "last_name"   => "string",
-            "test_period" => "boolean",
-            "skills"      => "array"
-          }
-        },
-        {
-          "id"         => "8afc8eeb-ff47-4342-8bfb-813cce372ce2",
-          "user_id"    => "f893913f-e763-42e7-816b-d9b9d5b07de3",
-          "created_at" => "2014-03-09T07:54:22.992Z",
-          "updated_at" => "2014-03-09T07:54:22.992Z",
-          "pdf"        => {"url"=>"/uploads/form/pdf/8afc8eeb-ff47-4342-8bfb-813cce372ce2/form.pdf"},
-          "identifier" => "VAT7-2",
-          "fields"     => {
-            "first_name"  =>"string",
-            "last_name"   =>"string",
-            "test_period" =>"boolean",
-            "skills"      =>"array"
-          }
-        }
-      ]
-      assert_equal expected_result, result
-    end
-  end
-
-  def test_sync_printouts_successfully
+  def test_sync_printout_returns_file_url
     VCR.use_cassette("printout_form_successfully") do
-      fields = {
-        "first_name" => "Mateusz",
-        "last_name"  => "Juraszek",
-        "student"    => "Yes",
-        "sex"        => "1",
-        "age"        => "15 - 18",
-        "hobby"      => "fishing",
-        "comment"    => "What the f***?"
-      }
-      fileless = Clerk::Form.print("aoa_pl", fields)
-      assert_equal 83733, fileless.size
-      assert_equal 'aoa_pl.pdf', fileless.original_filename
-      assert_equal 'application/pdf', fileless.content_type
+      result = Clerk::Form.print("aoa_pl", @fields)
+
+      expected_results = "https://clerkapp-development.s3.amazonaws.com/uploads/printout/pdf/beb7fb2e-ae4f-4a53-8567-067208c90fe0/printout.pdf?AWSAccessKeyId=AKIAJDUOZ6WHBRHTZMQA\u0026Expires=1407094566\u0026Signature=rEmUYwVxrt1jtHo3My2spWSLs%2Bc%3D"
+      assert_equal expected_results, result
+    end
+  end
+
+  def test_sync_printout_with_block_returns_file_url
+    VCR.use_cassette("printout_form_successfully") do
+      Clerk::Form.print("aoa_pl", @fields) do |result, error|
+        expected_results = "https://clerkapp-development.s3.amazonaws.com/uploads/printout/pdf/beb7fb2e-ae4f-4a53-8567-067208c90fe0/printout.pdf?AWSAccessKeyId=AKIAJDUOZ6WHBRHTZMQA\u0026Expires=1407094566\u0026Signature=rEmUYwVxrt1jtHo3My2spWSLs%2Bc%3D"
+
+        assert_equal expected_results, result
+        assert_nil   error
+      end
+    end
+  end
+
+  def test_sync_printout_returns_file
+    VCR.use_cassette("printout_form_successfully_returns_file") do
+      result = Clerk::Form.print("aoa_pl", @fields, file: true)
+
+      assert_equal 288054, result.size
+      assert_equal "application/pdf", result.content_type
+      assert_equal "printout.pdf", result.original_filename
+    end
+  end
+
+  def test_sync_printout_raises_invalid_request
+    VCR.use_cassette("printout_authorization_failed") do
+      assert_raises Clerk::InvalidToken do
+        Clerk::Form.print("aoa_pl", @fields, file: true)
+      end
+    end
+  end
+
+  def test_sync_printout_returns_authorization_failed
+    VCR.use_cassette("printout_maintenance_mode") do
+      Clerk::Form.print("aoa_pl", @fields) do |result, error|
+        assert_nil     result
+        assert_kind_of Clerk::MaintenanceMode, error
+      end
     end
   end
 end

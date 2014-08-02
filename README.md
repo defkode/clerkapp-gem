@@ -39,6 +39,50 @@ File.open("test_printout.pdf", "wb") do |f|
 end
 ```
 
+#### Other usage example
+
+```ruby
+# without options
+Clerk::Form.print(form_identifier, fields) do |file_url, error|
+  if error
+    handle_failure(error)
+  else
+    handle_success(file_url)
+  end
+end
+```
+
+```ruby
+# with options
+Clerk::Form.print(form_identifier, fields, {test: true}) do |file_url, error|
+  if error
+    handle_failure(error)
+  else
+    handle_success(file_url)
+  end
+end
+```
+
+```ruby
+# with file rather than file_url
+Clerk::Form.print(form_identifier, fields, {file: true}) do |file, error|
+  if error
+    handle_failure(error)
+  else
+    handle_success(file)
+  end
+end
+```
+
+```ruby
+# without block (raises on error)
+begin
+  file_url = Clerk::Form.print(form_identifier, fields, {test: true})
+rescue => exeption
+  # handle exception based on exception types
+end
+```
+
 ### Uploading pdf forms
 
 To upload pdf form open dashboard
