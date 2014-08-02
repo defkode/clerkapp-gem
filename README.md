@@ -6,7 +6,7 @@ Provides a simple ruby wrapper around the Clerkapp API
 
 Add this line to your application's Gemfile:
 
-    gem 'clerkapp'
+    gem 'clerkapp', require: 'clerk'
 
 And then execute:
 
